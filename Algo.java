@@ -242,9 +242,69 @@ public class Algo {
         }
         return p;
     }
+		
+	//计数回文子序列	
+	public int countPalindSubseq(String str) {
+        if(str == null || str.isEmpty()) return 0;
+        int n = str.length();
+        int[][] dp = new int[n][n];
+        for(int len=1;len<=n;len++){
+            for(int i=0;i+len-1 < n;i++){
+                int j = i+len-1;
+                if(i == j){
+                    dp[i][j] = 1;
+                }
+                else if(str.charAt(i)!=str.charAt(j)){
+                    dp[i][j] = dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1];
+                }
+                else{
+                    int left = i+1;
+                    int right = j-1;
+                    while(left <= right && str.charAt(left) != str.charAt(i)) left++;
+                    while(left <= right && str.charAt(right) != str.charAt(i)) right--;
+                    if(left == right){
+                        dp[i][j] = dp[i+1][j-1]*2 + 1;
+                    }
+                    else if(left > right){
+                        dp[i][j] = dp[i+1][j-1]*2 + 2;
+                    }
+                    else{
+                        dp[i][j] = dp[i+1][j-1]*2 - dp[left+1][right-1];
+                    }
+                }
+                if(dp[i][j] < 0){
+                    //overflow
+                    dp[i][j] += 1000000007;
+                }else{
+                    dp[i][j] %= 1000000007;
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+		
+		
+	/**
+     * @param s: the given string
+     * @return: all the possible states of the string after one valid move
+     */
+	//翻转游戏
+public List<String> generatePossibleNextMoves(String s) {
+    List<String> list = new ArrayList<>();
+    if (list == null) {
+        return list;
+    }
+    for (int i = 0; i < s.length() - 1; i++) {
+        if (s.charAt(i) == '+' && s.charAt(i + 1) == '+') {
+            list.add(s.substring(0, i) + "--" + s.substring(i + 2, s.length()));
+        }
+    }
+    return list;
+}
 }
 
-
+	
+	
 string main(string s)
 {
     int len = s.size();
