@@ -1,2 +1,2 @@
-# Some-Algorithms
+# Some-Excercises
 From LintCode...
